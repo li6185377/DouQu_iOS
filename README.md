@@ -11,5 +11,5 @@ DouQu_IOS
 ![](https://raw.githubusercontent.com/li6185377/DouQu_IOS/master/ScreenShot/screen_3.png)
 ![](https://raw.githubusercontent.com/li6185377/DouQu_IOS/master/ScreenShot/screen_4.png)
 
-如果喜欢我写的应用 你可以对我进行一些捐赠  http://item.taobao.com/item.htm?id=42574167157
+如果喜欢我写的应用 你可以对我进行一些捐赠  http://item.taobao.com/item.htm?spm=686.1000925.0.0.KF7xNi&id=42574167157
 
