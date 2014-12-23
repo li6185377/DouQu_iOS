@@ -1,0 +1,22 @@
+{
+  "bundle": "Main",
+  "color":{
+      "Brown":"#b1afb0",
+      "Gray":"#767274",
+      "Black":"#b1afb0",
+      "Red":"#ff87a0",
+      "Pink":"#ff87a0",
+      "DarkPink":"225,140,150",
+      "Green":"176,210,91",
+      "Orange":"#ffb14c",
+      "Blue":"109,188,231",
+      "Purple":"226,160,219",
+      "Bg":"#302b2e",
+      "CellHighlighted":"242,242,242",
+      "DarkGreen":"16,181,36",
+      "SignYellow":"255,225,97",
+      "SignOrange":"255,134,0",
+      "Cell_BG":"#423b3f",
+      "Text_Gray":"#767274"
+  }
+}
