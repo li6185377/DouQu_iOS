@@ -1,16 +1,32 @@
 //
 //  UIImageView+SY.m
-//  LJH
+//  Seeyou
 //
 //  Created by ljh on 14-2-13.
-//  Copyright (c) 2014年 Jianghuai Li. All rights reserved.
+//  Copyright (c) 2014年 linggan. All rights reserved.
 //
 
 #import "UIImageView+LK.h"
 #import "LK_THProgressView.h"
-#import <execinfo.h>
 #import <objc/runtime.h>
-#import <objc/message.h>
+
+#import "UIImageView+WebCache.h"
+#import "SDImageCache.h"
+
+#ifdef dispatch_main_async_safe
+
+#define __lk_setImageWithURL__ sd_setImageWithURL
+#define __lk_cancelImageLoad__ sd_cancelCurrentImageLoad
+#define __lk_completedURL__ ,NSURL* url
+
+#else
+
+#define __lk_setImageWithURL__ setImageWithURL
+#define __lk_cancelImageLoad__ cancelCurrentImageLoad
+#define __lk_completedURL__
+
+#endif
+
 
 static char imageURLKey;
 static char imageStatusKey;
@@ -18,14 +34,18 @@ static char imageTapEventKey;
 static char imageLoadedModeKey;
 static char imageReloadCountKey;
 
+static __weak id lk_imageDownloadDelegate;
 @implementation UIImageView (SY)
+
++(void)lk_setImageDownloadDelegate:(id)delegate
+{
+    lk_imageDownloadDelegate = delegate;
+}
+
+
 -(void)lk_cancelCurrentImageLoad
 {
-#ifdef dispatch_main_async_safe
-    [self sd_cancelCurrentImageLoad];
-#else
-    [self cancelCurrentImageLoad];
-#endif
+    [self __lk_cancelImageLoad__];
 }
 - (LK_THProgressView *)lk_progressView:(BOOL)isCreate
 {
@@ -49,6 +69,7 @@ static char imageReloadCountKey;
         frame.size.width = pwidth;
         progressView.frame = frame;
         progressView.center = CGPointMake(self.frame.size.width / 2, self.frame.size.height / 2);
+        progressView.hidden = NO;
         
         [self bringSubviewToFront:progressView];
     }
@@ -93,7 +114,7 @@ static char imageReloadCountKey;
     objc_setAssociatedObject(self, &imageStatusKey, @(status), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
--(NSURL*)URLWithImageURL:(id)imageURL
+-(NSURL*)lk_URLWithImageURL:(id)imageURL
 {
     if ([imageURL isKindOfClass:[NSString class]])
     {
@@ -112,12 +133,13 @@ static char imageReloadCountKey;
     }
     return imageURL;
 }
+
 - (void)setImageURLFromCache:(id)imageURL
 {
     [self lk_loadTapEvent];
     self.status = LKImageViewStatusLoaded;
     
-    imageURL = [self URLWithImageURL:imageURL];
+    imageURL = [self lk_URLWithImageURL:imageURL];
     objc_setAssociatedObject(self, &imageURLKey, imageURL, OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
 
@@ -125,16 +147,13 @@ static char imageReloadCountKey;
 {
     [self lk_loadTapEvent];
     
-    imageURL = [self URLWithImageURL:imageURL];
+    imageURL = [self lk_URLWithImageURL:imageURL];
     if (self.imageURL && self.image && self.status == LKImageViewStatusLoaded && imageURL)
     {
         if([[self.imageURL absoluteString] isEqualToString:[imageURL absoluteString]])
         {
             ///相同的图片URL 就不在设置了
-            if(self.image.duration == 0)
-            {
-                return;
-            }
+            return;
         }
     }
     
@@ -142,7 +161,30 @@ static char imageReloadCountKey;
     if (imageURL)
     {
         [self setReloadCount:0];
-        [self reloadImageURL];
+        
+        BOOL hasShowClickDownload = NO;
+        if([lk_imageDownloadDelegate respondsToSelector:@selector(lk_clickDownloadImageForURL:)])
+        {
+            hasShowClickDownload = [lk_imageDownloadDelegate lk_clickDownloadImageForURL:imageURL];
+        }
+        
+        BOOL hasCache = NO;
+        if(hasShowClickDownload)
+        {
+            hasCache = [[SDImageCache sharedImageCache] diskImageExistsWithKey:[imageURL absoluteString]];
+        }
+        
+        ///需要显示点击下载图片的选项
+        if(hasShowClickDownload && hasCache == NO)
+        {
+            [self lk_init_imageview];
+            self.status = LKImageViewStatusClickDownload;
+            [self lk_showImageWithName:@"lk_click_image"];
+        }
+        else
+        {
+            [self reloadImageURL];
+        }
     }
     else
     {
@@ -173,34 +215,38 @@ static char imageReloadCountKey;
     return objc_getAssociatedObject(self, &imageURLKey);
 }
 
-- (void)reloadImageURL
+-(void)lk_init_imageview
 {
-    id imageURL = self.imageURL;
-    
     [self lk_cancelCurrentImageLoad];
+    
+    [self lk_progressView:NO].hidden = YES;
     
     self.image = nil;
     self.backgroundColor = [UIColor colorWithRed:233/255.0 green:228/255.0 blue:223/255.0 alpha:1];
-    
-    __weak UIImageView *wself = self;
     
     if(self.loadedViewContentMode < 0)
     {
         self.loadedViewContentMode = self.contentMode;
     }
+}
+- (void)reloadImageURL
+{
+    id imageURL = self.imageURL;
+    
+    [self lk_init_imageview];
+    
+    __weak UIImageView *wself = self;
     
     self.status = LKImageViewStatusLoading;
+    
     __block LK_THProgressView *pv = [self lk_progressView:YES];
     pv.progress = 0;
     pv.hidden = NO;
     [pv setNeedsDisplay];
     [self setNeedsDisplay];
-#ifdef dispatch_main_async_safe
-    [self sd_setImageWithURL:imageURL placeholderImage:nil options:SDWebImageRetryFailed
-#else
-     [self setImageWithURL:imageURL placeholderImage:nil options:SDWebImageRetryFailed
-#endif
-                    progress:^(NSInteger receivedSize, NSInteger expectedSize)
+    
+    [self __lk_setImageWithURL__:imageURL placeholderImage:nil options:SDWebImageRetryFailed
+                        progress:^(NSInteger receivedSize, NSInteger expectedSize)
      {
          if(expectedSize <= 0)
          {
@@ -219,11 +265,7 @@ static char imageReloadCountKey;
              pv.progress = pvalue;
          });
      }
-#ifdef dispatch_main_async_safe
-                 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL* url)
-#else
-                 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType)
-#endif
+                       completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType __lk_completedURL__)
      {
          if (image)
          {
@@ -244,32 +286,17 @@ static char imageReloadCountKey;
              if (error)
              {
                  int reloadCount = [wself reloadCount];
-                 if(reloadCount < 3)
+                 if(reloadCount < 2)
                  {
                      [wself setReloadCount:reloadCount+1];
                      [wself reloadImageURL];
+                     
                      return ;
                  }
                  
                  [wself lk_hideProgressView];
                  wself.status = LKImageViewStatusFail;
-                 
-                 dispatch_async(dispatch_get_main_queue(), ^{
-                     
-                     [pv removeFromSuperview];
-                     
-                     UIImage *remindNoImage = [UIImage imageNamed:@"remind_noimage.png"];
-                     if (wself.bounds.size.width < remindNoImage.size.width || wself.bounds.size.height < remindNoImage.size.height)
-                     {
-                         wself.contentMode = UIViewContentModeScaleAspectFit;
-                     }
-                     else
-                     {
-                         wself.contentMode = UIViewContentModeCenter;
-                     }
-                     wself.image = remindNoImage;
-                     [wself setNeedsDisplay];
-                 });
+                 [wself lk_showImageWithName:@"lk_noimage.png"];
              }
              else
              {
@@ -279,6 +306,22 @@ static char imageReloadCountKey;
          }
      }];
 }
+
+-(void)lk_showImageWithName:(NSString*)name
+{
+    UIImage *image = [UIImage imageNamed:name];
+    if (self.bounds.size.width < image.size.width || self.bounds.size.height < image.size.height)
+    {
+        self.contentMode = UIViewContentModeScaleAspectFit;
+    }
+    else
+    {
+        self.contentMode = UIViewContentModeCenter;
+    }
+    self.image = image;
+    [self setNeedsDisplay];
+}
+
 -(void)lk_hideProgressView
 {
     LK_THProgressView *pv = [self lk_progressView:NO];
@@ -300,29 +343,40 @@ static char imageReloadCountKey;
 
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event
 {
-    if (self.imageURL && self.status != LKImageViewStatusFail && self.onTouchTapBlock == nil)
+    LKImageViewStatus status = self.status;
+    if (status == LKImageViewStatusClickDownload || status == LKImageViewStatusFail)
+    {
+        return CGRectContainsPoint(self.bounds, point);
+    }
+    
+    if (self.imageURL && self.onTouchTapBlock == nil)
     {
         return NO;
     }
-    return [super pointInside:point withEvent:event];
+    return CGRectContainsPoint(self.bounds, point);
 }
 
 - (void)lk_handleTapEvent:(UITapGestureRecognizer *)sender
 {
-    switch (self.status)
+    LKImageViewStatus status = self.status;
+    if(status == LKImageViewStatusClickDownload || status == LKImageViewStatusFail)
     {
-        case LKImageViewStatusFail:
+        if([lk_imageDownloadDelegate respondsToSelector:@selector(lk_newURLWithClickURL:)])
         {
-            [self reloadImageURL];
-            break;
-        }
-        default:
-        {
-            if (self.onTouchTapBlock)
+            NSURL* oriURL = self.imageURL;
+            NSURL* newURL = [lk_imageDownloadDelegate lk_newURLWithClickURL:oriURL];
+            if ([oriURL isEqual:newURL] == NO)
             {
-                self.onTouchTapBlock(self);
+                objc_setAssociatedObject(self, &imageURLKey, newURL, OBJC_ASSOCIATION_COPY_NONATOMIC);
             }
-            break;
+        }
+        [self reloadImageURL];
+    }
+    else
+    {
+        if (self.onTouchTapBlock)
+        {
+            self.onTouchTapBlock(self);
         }
     }
 }

@@ -143,7 +143,8 @@
     if(indexPath.row == 4)
     {
         TOWebViewController* vc = [[TOWebViewController alloc] initWithURLString:@"http://douqu.avosapps.com/douqu_about.html"];
-        vc.navigationItem.title = @"关于";
+        vc.showPageTitles = NO;
+        vc.title = @"关于";
         [self lk_push:vc];
     }
 }

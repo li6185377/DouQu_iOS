@@ -30,6 +30,7 @@
 		3671BD301A3D4A0F00033D54 /* LKSafeCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 3671BD2F1A3D4A0F00033D54 /* LKSafeCategory.m */; };
 		3671BD331A3D7D8600033D54 /* LKThemeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3671BD321A3D7D8600033D54 /* LKThemeManager.m */; };
 		3671BD391A3D7E8200033D54 /* UIColor+LK.m in Sources */ = {isa = PBXBuildFile; fileRef = 3671BD381A3D7E8200033D54 /* UIColor+LK.m */; };
+		36B58FC71A4E797500C9B538 /* NSURL+LK.m in Sources */ = {isa = PBXBuildFile; fileRef = 36B58FC61A4E797500C9B538 /* NSURL+LK.m */; };
 		36BE9BA81A416B6200A1DE6A /* NSString+DQ.m in Sources */ = {isa = PBXBuildFile; fileRef = 36BE9BA71A416B6200A1DE6A /* NSString+DQ.m */; };
 		36BE9BBC1A41789700A1DE6A /* NSObject+DragLoadSetup.m in Sources */ = {isa = PBXBuildFile; fileRef = 36BE9BAC1A41789700A1DE6A /* NSObject+DragLoadSetup.m */; };
 		36BE9BBD1A41789700A1DE6A /* ComOpenThreadOTScreenshotHelperSwizzleHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 36BE9BAF1A41789700A1DE6A /* ComOpenThreadOTScreenshotHelperSwizzleHelper.m */; };
@@ -148,6 +149,8 @@
 		3671BD321A3D7D8600033D54 /* LKThemeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LKThemeManager.m; sourceTree = "<group>"; };
 		3671BD371A3D7E8200033D54 /* UIColor+LK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+LK.h"; sourceTree = "<group>"; };
 		3671BD381A3D7E8200033D54 /* UIColor+LK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+LK.m"; sourceTree = "<group>"; };
+		36B58FC51A4E797500C9B538 /* NSURL+LK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+LK.h"; sourceTree = "<group>"; };
+		36B58FC61A4E797500C9B538 /* NSURL+LK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+LK.m"; sourceTree = "<group>"; };
 		36BE9BA61A416B6200A1DE6A /* NSString+DQ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+DQ.h"; sourceTree = "<group>"; };
 		36BE9BA71A416B6200A1DE6A /* NSString+DQ.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+DQ.m"; sourceTree = "<group>"; };
 		36BE9BAB1A41789700A1DE6A /* NSObject+DragLoadSetup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+DragLoadSetup.h"; sourceTree = "<group>"; };
@@ -700,6 +703,8 @@
 				36CB447D1A3ADCFD00960DB4 /* UIView+Toast_LK.m */,
 				3671BD371A3D7E8200033D54 /* UIColor+LK.h */,
 				3671BD381A3D7E8200033D54 /* UIColor+LK.m */,
+				36B58FC51A4E797500C9B538 /* NSURL+LK.h */,
+				36B58FC61A4E797500C9B538 /* NSURL+LK.m */,
 			);
 			path = LK;
 			sourceTree = "<group>";
@@ -914,6 +919,7 @@
 				36C3D4231A3F17A10031978B /* UIView+DQ.m in Sources */,
 				3671BD2A1A3D404D00033D54 /* LKWeakArray.m in Sources */,
 				36CB447A1A3AC7E700960DB4 /* LKBaseViewController.m in Sources */,
+				36B58FC71A4E797500C9B538 /* NSURL+LK.m in Sources */,
 				36BE9C861A41AAFF00A1DE6A /* MJPhoto.m in Sources */,
 				36CB44761A3AC7E700960DB4 /* OpenUDID.m in Sources */,
 				36BE9C881A41AAFF00A1DE6A /* MJPhotoBrowser.m in Sources */,

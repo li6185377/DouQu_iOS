@@ -24,6 +24,9 @@
 ///默认配置
 @property(readonly,strong,nonatomic)NSDictionary* mainInfo;
 
+///是否使用深色键盘
+@property(nonatomic) BOOL keyboardAppearanceDark;
+
 ///从themeInfo 里面获取颜色
 -(UIColor*)colorForKey:(NSString*)key;
 

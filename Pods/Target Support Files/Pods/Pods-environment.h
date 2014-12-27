@@ -14,9 +14,10 @@
 
 // AVOSCloud
 #define COCOAPODS_POD_AVAILABLE_AVOSCloud
-#define COCOAPODS_VERSION_MAJOR_AVOSCloud 2
-#define COCOAPODS_VERSION_MINOR_AVOSCloud 6
-#define COCOAPODS_VERSION_PATCH_AVOSCloud 9
+// This library does not follow semantic-versioning,
+// so we were not able to define version macros.
+// Please contact the author.
+// Version: 2.6.9.1.
 
 // FMDB
 #define COCOAPODS_POD_AVAILABLE_FMDB
@@ -36,12 +37,6 @@
 #define COCOAPODS_VERSION_MINOR_FMDB_standard 4
 #define COCOAPODS_VERSION_PATCH_FMDB_standard 0
 
-// JGProgressHUD
-#define COCOAPODS_POD_AVAILABLE_JGProgressHUD
-#define COCOAPODS_VERSION_MAJOR_JGProgressHUD 1
-#define COCOAPODS_VERSION_MINOR_JGProgressHUD 2
-#define COCOAPODS_VERSION_PATCH_JGProgressHUD 2
-
 // LKDBHelper
 #define COCOAPODS_POD_AVAILABLE_LKDBHelper
 #define COCOAPODS_VERSION_MAJOR_LKDBHelper 2
@@ -57,8 +52,8 @@
 // SDWebImage-Category
 #define COCOAPODS_POD_AVAILABLE_SDWebImage_Category
 #define COCOAPODS_VERSION_MAJOR_SDWebImage_Category 1
-#define COCOAPODS_VERSION_MINOR_SDWebImage_Category 1
-#define COCOAPODS_VERSION_PATCH_SDWebImage_Category 1
+#define COCOAPODS_VERSION_MINOR_SDWebImage_Category 3
+#define COCOAPODS_VERSION_PATCH_SDWebImage_Category 0
 
 // SDWebImage/Core
 #define COCOAPODS_POD_AVAILABLE_SDWebImage_Core
@@ -82,5 +77,5 @@
 #define COCOAPODS_POD_AVAILABLE_UMengFeedback
 #define COCOAPODS_VERSION_MAJOR_UMengFeedback 2
 #define COCOAPODS_VERSION_MINOR_UMengFeedback 0
-#define COCOAPODS_VERSION_PATCH_UMengFeedback 2
+#define COCOAPODS_VERSION_PATCH_UMengFeedback 3
 

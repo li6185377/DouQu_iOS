@@ -18,6 +18,9 @@
 
 -(void)clearNilObject;
 
+///线程锁
+@property(strong,nonatomic)NSRecursiveLock* singleLock;
+
 ///array 的一些方法
 @property (nonatomic, readonly) NSUInteger count;
 @property (nonatomic, readonly) id firstObject;

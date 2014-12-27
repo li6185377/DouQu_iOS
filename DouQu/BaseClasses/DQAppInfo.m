@@ -35,6 +35,8 @@
     if (self) {
         //设置 wifi 下载
         [SDWebImageManager sharedManager].delegate = self;
+        [UIImageView lk_setImageDownloadDelegate:self];
+        
         self.isNight = [[NSUserDefaults standardUserDefaults] boolForKey:isNightKey];
         if([[NSUserDefaults standardUserDefaults] objectForKey:autoLoadingImageKey] == nil)
         {
@@ -47,9 +49,22 @@
     }
     return self;
 }
+-(BOOL)lk_clickDownloadImageForURL:(NSURL *)imageURL
+{
+    if([DQNetworkHelper shareHelper].is2G3G && _autoLoadingImage2g == NO)
+    {
+        return YES;
+    }
+    return NO;
+}
+-(NSURL *)lk_newURLWithClickURL:(NSURL *)imageURL
+{
+    imageURL.shouldDownloadImage = YES;
+    return imageURL;
+}
 - (BOOL)imageManager:(SDWebImageManager *)imageManager shouldDownloadImageForURL:(NSURL *)imageURL
 {
-    if([imageURL.absoluteString hasSuffix:@"dq_loading"])
+    if(imageURL.shouldDownloadImage)
     {
         return YES;
     }

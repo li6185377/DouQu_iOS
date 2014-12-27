@@ -8,7 +8,11 @@
 #import "MJPhoto.h"
 
 @implementation MJPhoto
-
+-(void)setUrl:(NSURL *)url
+{
+    _url = url;
+    _url.shouldDownloadImage = YES;
+}
 #pragma mark 截图
 - (UIImage *)capture:(UIView *)view
 {

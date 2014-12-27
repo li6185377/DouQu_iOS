@@ -10,6 +10,7 @@
 #import "NSObject+LKTheme.h"
 #import "UIImage+LKTheme.h"
 
+#pragma mark- UIView
 @implementation UIView (LKTheme)
 -(void)lk_setBackgroundColorForKey:(NSString *)key
 {
@@ -30,6 +31,7 @@
 }
 @end
 
+#pragma mark- UIImageView
 @implementation UIImageView(LKTheme)
 
 -(void)lk_setImageForKey:(NSString *)key
@@ -58,14 +60,14 @@
 @end
 
 
-
+#pragma mark- UIButton
 @implementation UIButton(LKTheme)
 -(void)lk_setImageForKey:(NSString*)key forState:(UIControlState)state
 {
     UIImage* img = [UIImage lk_imageWithName:key];
     [self setImage:img forState:state];
     
-    [self lk_addObserverWithSEL:_cmd paramsArray:@[key,@(state)]];
+    [self lk_addObserverWithSEL:_cmd paramsArray:@[key,@(state)] appendKey:@(state)];
 }
 -(void)lk_setBackgroundImageForKey:(NSString*)key forState:(UIControlState)state
 {
@@ -77,7 +79,7 @@
     UIColor* color = LK_ThemeColor(key);
     [self setTitleColor:color forState:state];
     
-    [self lk_addObserverWithSEL:_cmd paramsArray:@[key,@(state)]];
+    [self lk_addObserverWithSEL:_cmd paramsArray:@[key,@(state)] appendKey:@(state)];
 }
 
 -(void)lk_setBackgroundImageForKey:(NSString*)key forState:(UIControlState)state stretch:(CGPoint)stretch
@@ -85,10 +87,11 @@
     UIImage* img = [UIImage lk_imageWithName:key stretch:stretch];
     [self setBackgroundImage:img forState:state];
     
-    [self lk_addObserverWithSEL:_cmd paramsArray:@[key,@(state),[NSValue valueWithCGPoint:stretch]]];
+    [self lk_addObserverWithSEL:_cmd paramsArray:@[key,@(state),[NSValue valueWithCGPoint:stretch]] appendKey:@(state)];
 }
 @end
 
+#pragma mark- UITabbarItem
 @implementation UITabBarItem (LKTheme)
 -(void)lk_setFinishedSelectedImage:(NSString *)selectedImageKey withFinishedUnselectedImage:(NSString *)unselectedImageKey
 {
@@ -105,17 +108,18 @@
 }
 @end
 
+#pragma mark- UINavigationBar
 @implementation UINavigationBar (LKTheme)
 -(void)lk_setBackgroundImageForKey:(NSString *)key forBarMetrics:(UIBarMetrics)barMetrics
 {
     UIImage* img = [UIImage lk_imageWithName:key stretch:CGPointMake(0.5, 0.5)];
     [self setBackgroundImage:img forBarMetrics:barMetrics];
     
-    [self lk_addObserverWithSEL:_cmd paramsArray:@[key,@(barMetrics)]];
+    [self lk_addObserverWithSEL:_cmd paramsArray:@[key,@(barMetrics)] appendKey:@(barMetrics)];
 }
 @end
 
-
+#pragma mark- UITabBar
 @implementation UITabBar(LKTheme)
 -(void)lk_setBackgroundImageForKey:(NSString *)key
 {
@@ -125,4 +129,33 @@
     [self lk_addObserverWithSEL:_cmd paramsArray:key];
 }
 
+@end
+
+#pragma mark- UITextView
+@implementation UITextView(LKTheme)
+-(void)didMoveToSuperview
+{
+    if(self.superview)
+    {
+        [self themeChangeEvent];
+    }
+    if(IOS7)
+    {
+        [self lk_addObserverWithSEL:@selector(themeChangeEvent) paramsArray:nil];
+    }
+}
+-(void)themeChangeEvent
+{
+    if(IOS7)
+    {
+        if([LKThemeManager shareThemeManager].keyboardAppearanceDark)
+        {
+            self.keyboardAppearance = UIKeyboardAppearanceDark;
+        }
+        else
+        {
+            self.keyboardAppearance = UIKeyboardAppearanceDefault;
+        }
+    }
+}
 @end

@@ -20,6 +20,7 @@
 #import "UIImageView+LK.h"
 #import "NSObject+LK.h"
 #import "UIColor+LK.h"
+#import "NSURL+LK.h"
 
 #define IOS5 ([UIDevice currentDevice].systemVersion.floatValue >= 5)
 #define IOS6 ([UIDevice currentDevice].systemVersion.floatValue >= 6)

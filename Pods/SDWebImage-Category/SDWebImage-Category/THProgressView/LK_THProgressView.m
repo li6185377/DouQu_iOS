@@ -156,7 +156,7 @@ static const CGFloat kBorderWidth = 2.0f;
 - (void)setProgressTintColor:(UIColor *)progressTintColor
 {
     self.progressLayer.progressTintColor = progressTintColor;
-   [self.progressLayer setNeedsDisplay];
+    [self.progressLayer setNeedsDisplay];
 }
 
 - (UIColor *)borderTintColor

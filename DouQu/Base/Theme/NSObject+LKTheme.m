@@ -37,8 +37,9 @@ static char LK_Theme_Observers;
         return;
     }
     
-    [themeObserverDict enumerateKeysAndObjectsUsingBlock:^(id key, LKThemeObserverObject* obj, BOOL *stop) {
-
+    NSArray* allValues = themeObserverDict.allValues;
+    for (LKThemeObserverObject* obj in allValues)
+    {
         SEL sel = NSSelectorFromString(obj.selectorString);
         NSMethodSignature *sig = [self.class instanceMethodSignatureForSelector:sel];
         NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];
@@ -71,30 +72,40 @@ static char LK_Theme_Observers;
             }
         }
         [invocation invoke];
-    }];
+    }
 }
 -(void)lk_addObserverWithSEL:(SEL)sel paramsArray:(id)params
+{
+    [self lk_addObserverWithSEL:sel paramsArray:params appendKey:nil];
+}
+-(void)lk_addObserverWithSEL:(SEL)sel paramsArray:(id)params appendKey:(id)key
 {
     NSString* selStr = NSStringFromSelector(sel);
     if(selStr.length == 0)
     {
         return;
     }
+    
+    NSString* cacheKey = selStr;
+    if(key != nil)
+    {
+        cacheKey = [cacheKey stringByAppendingFormat:@"%@",key];
+    }
+    
     if(params && [params isKindOfClass:[NSArray class]] == NO)
     {
         params = @[params];
     }
     NSMutableDictionary* dic = [self lk_themeObservers];
-    LKThemeObserverObject* object = [dic objectForKey:selStr];
+    LKThemeObserverObject* object = [dic objectForKey:cacheKey];
     if(object == nil)
     {
         object = [LKThemeObserverObject new];
     }
     object.selectorString = selStr;
     object.params = params;
-    [dic setObject:object forKey:selStr];
+    [dic setObject:object forKey:cacheKey];
     
     [[LKThemeManager shareThemeManager] addChangedListener:self];
 }
-
 @end

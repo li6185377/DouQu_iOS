@@ -1,1 +1,1 @@
-../../../AVOSCloud/iOS/release-v2.6.9/AVOSCloud.framework/PrivateHeaders/AFNetworkingFix.h
+../../../AVOSCloud/iOS/release-v2.6.9.1/AVOSCloud.framework/PrivateHeaders/AFNetworkingFix.h

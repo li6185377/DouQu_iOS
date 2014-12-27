@@ -13,8 +13,6 @@
 
 @interface LKWeakArray()
 {
-    ///线程锁
-    NSRecursiveLock* _singleLock;
     ///具体内容
     NSMutableArray* _array;
 }

@@ -1,0 +1,39 @@
+/* 
+  Localizable.strings
+  UMFeedback
+
+  Created by amoblin on 14/9/26.
+
+*/
+
+"Feedback" = "用户反馈";
+"Close" = "关闭";
+"OK" = "好";
+"Send again?" = "重新发送？";
+"Resend" = "重发";
+
+"Just now" = "刚刚";
+"%d minutes ago" = "%d分钟前";
+"%d hours ago" = "%d小时前";
+"Yesterday" = "昨天";
+"The day before yesterday" = "前天";
+
+"Update info" = "完善联系信息";
+"Save" = "保存";
+
+"Phone" = "电话";
+"Email" = "邮箱";
+"Other" = "其他";
+
+"QQ: %@ Phone: %@ \nEmail: %@ Other: %@" = "QQ: %@ 电话: %@ \n邮箱: %@ 其他: %@";
+
+"Cancel" = "取消";
+"Send" = "发送";
+
+"for QQ number" = "请输入QQ号";
+"for phone number" = "请输入手机号";
+"for email address" = "请输入邮箱";
+"anything else?" = "随便写点啥吧";
+
+"new feedback" = "新的回复";
+"View" = "查看";

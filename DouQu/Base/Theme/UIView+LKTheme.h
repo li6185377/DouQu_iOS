@@ -41,3 +41,6 @@
 @interface UITabBar(LKTheme)
 -(void)lk_setBackgroundImageForKey:(NSString*)key;
 @end
+
+@interface UITextView(LKTheme)
+@end

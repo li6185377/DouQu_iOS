@@ -48,6 +48,35 @@
     }
     return self;
 }
+
+#pragma mark- set keyboard style
+-(void)setKeyboardAppearanceDark:(BOOL)keyboardAppearanceDark
+{
+    _keyboardAppearanceDark = keyboardAppearanceDark;
+    if(IOS7)
+    {
+        if(_keyboardAppearanceDark)
+        {
+            [[UITextField appearance] setKeyboardAppearance:UIKeyboardAppearanceDark];
+            
+            Class<UIAppearance> clazz = NSClassFromString(@"UISearchBarTextField");
+            if([(Class)clazz conformsToProtocol:@protocol(UIAppearance)])
+            {
+                [[clazz appearance] setKeyboardAppearance:UIKeyboardAppearanceDark];
+            }
+        }
+        else
+        {
+            [[UITextField appearance] setKeyboardAppearance:UIKeyboardAppearanceDefault];
+            
+            Class<UIAppearance> clazz = NSClassFromString(@"UISearchBarTextField");
+            if([(Class)clazz conformsToProtocol:@protocol(UIAppearance)])
+            {
+                [[clazz appearance] setKeyboardAppearance:UIKeyboardAppearanceDefault];
+            }
+        }
+    }
+}
 #pragma mark- get resource
 -(UIColor *)colorForKey:(NSString *)key
 {
@@ -157,7 +186,7 @@
         
         NSData* themeInfoData = [NSData dataWithContentsOfFile:[_resourcePath stringByAppendingPathComponent:@"LKThemeInfo.json"]];
         _themeInfo = [NSData dictionaryWithJSONData:themeInfoData];
-        
+        self.keyboardAppearanceDark = [_themeInfo[@"keyboarDrak"] boolValue];
         [self sendThemeChangedEvent];
     }
     else
@@ -167,6 +196,7 @@
         {
             _themeInfo = nil;
             self.resourcePath = nil;
+            self.keyboardAppearanceDark = NO;
             
             [self sendThemeChangedEvent];
         }

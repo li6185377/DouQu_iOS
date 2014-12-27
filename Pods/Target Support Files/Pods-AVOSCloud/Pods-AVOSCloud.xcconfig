@@ -1,2 +1,2 @@
-PODS_AVOSCLOUD_FRAMEWORK_SEARCH_PATHS = "$(PODS_ROOT)/AVOSCloud/iOS/release-v2.6.9"
+PODS_AVOSCLOUD_FRAMEWORK_SEARCH_PATHS = "$(PODS_ROOT)/AVOSCloud/iOS/release-v2.6.9.1"
 PODS_AVOSCLOUD_OTHER_LDFLAGS = -l"icucore" -framework "AVOSCloud" -framework "CFNetwork" -framework "CoreGraphics" -framework "CoreLocation" -framework "CoreTelephony" -framework "MobileCoreServices" -framework "QuartzCore" -framework "Security" -framework "SystemConfiguration"

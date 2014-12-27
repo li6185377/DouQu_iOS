@@ -42,6 +42,12 @@
     titleTextAttributes[UITextAttributeTextShadowColor] = [UIColor clearColor];
     titleTextAttributes[UITextAttributeTextShadowOffset] = [NSValue valueWithCGSize:CGSizeMake(0, 0)];
     self.navigationBar.titleTextAttributes = titleTextAttributes;
+    
+    if(IOS6)
+    {
+        [self.navigationBar setShadowImage:[UIImage new]];
+    }
+    
     [self.navigationBar setBackgroundImage:[UIImage lk_imageCenterStretchWithName:@"all_top_bg"] forBarMetrics:UIBarMetricsDefault];
 }
 

@@ -17,7 +17,7 @@
 
 #import "SYSSPasteboardView.h"
 
-static int isNeedShowCount;
+static CFAbsoluteTime lastShowTime;
 
 @interface DQTextJokesVC ()<UITableViewDataSource,UITableViewDelegate>
 @property(strong,nonatomic)UITableView* tableView;
@@ -59,6 +59,14 @@ static int isNeedShowCount;
     }
     
     [self.tableView triggerRefresh];
+}
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if(lastShowTime == 0)
+    {
+        lastShowTime = CFAbsoluteTimeGetCurrent();
+    }
 }
 - (void)viewDidLoad
 {
@@ -212,11 +220,6 @@ static int isNeedShowCount;
         [self lk_push:vc];
     }
 }
--(void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(showADView) object:nil];
-}
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(showADView) object:nil];
@@ -224,16 +227,25 @@ static int isNeedShowCount;
 }
 -(void)showADView
 {
-    isNeedShowCount++;
-    if((isNeedShowCount%5) == 0)
+    CFAbsoluteTime timeDiff = (CFAbsoluteTimeGetCurrent() - lastShowTime);
+    if(timeDiff > 60 * 30)
     {
         BOOL isShow = [YouMiNewSpot p9Y:^(BOOL flag) {
-            [MobClick event:@"showAD"];
+            if(flag)
+            {
+                [MobClick event:@"clickAD"];
+            }
         }];
         if(isShow)
         {
-            [UIWindow showToastMessage:@"看累了~ 休息一下吧！！" withColor:nil duration:5];
+            [MobClick event:@"showAD"];
+            [UIWindow showToastMessage:@"您盯着屏幕已经30分钟了，请休息一下吧~！！" withColor:nil duration:5];
         }
+        lastShowTime = CFAbsoluteTimeGetCurrent();
+    }
+    else
+    {
+        [self performSelector:@selector(showADView) withObject:nil afterDelay:15];
     }
 }
 #pragma mark- photo browser
