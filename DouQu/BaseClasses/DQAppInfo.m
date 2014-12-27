@@ -38,14 +38,7 @@
         [UIImageView lk_setImageDownloadDelegate:self];
         
         self.isNight = [[NSUserDefaults standardUserDefaults] boolForKey:isNightKey];
-        if([[NSUserDefaults standardUserDefaults] objectForKey:autoLoadingImageKey] == nil)
-        {
-            self.autoLoadingImage2g = YES;
-        }
-        else
-        {
-            self.autoLoadingImage2g = [[NSUserDefaults standardUserDefaults] boolForKey:autoLoadingImageKey];
-        }
+        self.autoLoadingImage2g = [[NSUserDefaults standardUserDefaults] boolForKey:autoLoadingImageKey];
     }
     return self;
 }
