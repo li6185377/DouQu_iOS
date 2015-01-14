@@ -14,4 +14,7 @@
 
 @property(nonatomic) BOOL autoLoadingImage2g;
 @property(nonatomic) BOOL isNight;
+
+-(void)sendUserInfos;
+-(void)showADView;
 @end

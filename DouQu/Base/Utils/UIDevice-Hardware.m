@@ -16,6 +16,9 @@
 #import "UIDevice-Hardware.h"
 #import "OpenUDID.h"
 
+#import <CoreTelephony/CTTelephonyNetworkInfo.h>
+#import <CoreTelephony/CTCarrier.h>
+
 @implementation UIDevice (Hardware)
 /*
  Platforms
@@ -385,6 +388,22 @@
         idfaString = adMgr.advertisingIdentifier.UUIDString;
     }
     return idfaString;
+}
+- (NSString *)idfvString
+{
+   return [[self identifierForVendor] UUIDString];
+}
+- (NSString *)carrierName
+{
+    CTTelephonyNetworkInfo *netInfo = [[CTTelephonyNetworkInfo alloc] init];
+    CTCarrier *carrier = [netInfo subscriberCellularProvider];
+    
+    if (carrier == nil)
+    {
+        return nil;
+    }
+    NSString *carrierName = [carrier carrierName];
+    return carrierName;
 }
 
 // Illicit Bluetooth check -- cannot be used in App Store

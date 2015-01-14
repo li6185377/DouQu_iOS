@@ -17,14 +17,15 @@
 
 #import "SYSSPasteboardView.h"
 
-static CFAbsoluteTime lastShowTime;
-
 @interface DQTextJokesVC ()<UITableViewDataSource,UITableViewDelegate>
 @property(strong,nonatomic)UITableView* tableView;
 @property(strong,nonatomic)NSArray* models;
 
 @property(weak,nonatomic)AFHTTPRequestOperation* op_request;
 @property(weak,nonatomic)AFHTTPRequestOperation* op_loadmore;
+
+@property(strong,nonatomic)NSMutableArray* deleteObjectIds;
+
 @end
 
 @implementation DQTextJokesVC
@@ -60,16 +61,10 @@ static CFAbsoluteTime lastShowTime;
     
     [self.tableView triggerRefresh];
 }
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    if(lastShowTime == 0)
-    {
-        lastShowTime = CFAbsoluteTimeGetCurrent();
-    }
-}
 - (void)viewDidLoad
 {
+    self.deleteObjectIds = [NSMutableArray array];
+    
     [super viewDidLoad];
     
     self.tableView = [[UITableView alloc]initWithFrame:self.view.bounds];
@@ -83,6 +78,15 @@ static CFAbsoluteTime lastShowTime;
     
     [self initData];
 }
+-(DQJokesModel*)createADModel
+{
+    DQJokesModel* admodel = [DQJokesModel new];
+    admodel.type = DQJokesModelTypeYouMiAD;
+    admodel.publisher = @"推广";
+    admodel.content = @"2015新应用火爆来袭，一起偷看下别人玩什么！！ ";
+    admodel.image = [[NSBundle mainBundle] pathForResource:@"ad_image_640_164" ofType:@"jpg"];
+    return admodel;
+}
 -(void)dragTableDidTriggerRefresh:(UITableView *)tableView
 {
     [_op_loadmore setCompletionBlockWithSuccess:nil failure:nil];
@@ -91,28 +95,42 @@ static CFAbsoluteTime lastShowTime;
     [_op_request cancel];
     
     weakify(self);
-    self.op_request = [DQNetworkHelper method:@"i_just_is_a_get_method" params:@{@"type":@(_requestType)} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    self.op_request = [DQNetworkHelper method:@"get_jokes" params:@{@"type":@(_requestType)} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        strongify(self);
         NSDictionary* dic = [NSData dictionaryWithJSONData:operation.responseData];
         NSArray* array = [dic objectForKey:@"result"];
-        NSArray* models = [array toModels:[DQJokesModel class]];
-        
+        NSMutableArray* models = [NSMutableArray arrayWithArray:[array toModels:DQJokesModel.class]];
+        [models enumerateObjectsUsingBlock:^(DQJokesModel* obj, NSUInteger idx, BOOL *stop) {
+            strongify(self);
+            if([self.deleteObjectIds containsObject:obj.objectId])
+            {
+                [models removeObject:obj];
+            }
+        }];
+
         if(models.count > 0)
         {
             [operation.responseData writeToFile:DQTextJokesCachePath atomically:YES];
         }
+        
+        if(models.count > 6)
+        {
+            [models insertObject:[self createADModel] atIndex:6];
+        }
+        
         dispatch_main_sync_safe(^{
+            strongify(self);
             if(models.count > 0)
             {
-                strongify(self);
                 self.models = models;
                 [self.tableView reloadData];
             }
-            [self.tableView finishRefresh];
+            [self.tableView performSelector:@selector(finishRefresh) withObject:nil afterDelay:0.5];
         });
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         strongify(self);
-        [self.tableView stopRefresh];
+        [self.tableView performSelector:@selector(stopRefresh) withObject:nil afterDelay:0.5];
     }];
     _op_request.successCallbackQueue = dispatch_get_global_queue(0, 0);
 }
@@ -125,28 +143,37 @@ static CFAbsoluteTime lastShowTime;
         return;
     }
     NSMutableDictionary* params = [NSMutableDictionary dictionary];
-    [params setObject:@(_requestType) forKey:@"type"];
-    [params setObject:lastModel.createdAt forKey:@"lastTime"];
+    [params setValue:@(_requestType) forKey:@"type"];
+    [params setValue:lastModel.createdAt forKey:@"lastTime"];
+    [params setValue:@(lastModel.rowIndex) forKey:@"lastId"];
     weakify(self);
     self.op_loadmore = [DQNetworkHelper method:@"i_just_is_a_get_method" params:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSDictionary* dic = [NSData dictionaryWithJSONData:operation.responseData];
         NSArray* array = [dic objectForKey:@"result"];
-        NSArray* models = [array toModels:[DQJokesModel class]];
+        NSMutableArray* models = [NSMutableArray arrayWithArray:[array toModels:DQJokesModel.class]];
+        [models enumerateObjectsUsingBlock:^(DQJokesModel* obj, NSUInteger idx, BOOL *stop) {
+            strongify(self);
+            if([self.deleteObjectIds containsObject:obj.objectId])
+            {
+                [models removeObject:obj];
+            }
+        }];
         dispatch_main_sync_safe(^{
             strongify(self);
             if(models.count > 0)
             {
                 NSMutableArray* allModels = [NSMutableArray arrayWithArray:self.models];
                 [allModels addObjectsFromArray:models];
+                
                 self.models = allModels;
                 [self.tableView reloadData];
             }
-            [self.tableView finishLoadMore];
+            [self.tableView performSelector:@selector(finishLoadMore) withObject:nil afterDelay:0.5];
         });
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         strongify(self);
-        [self.tableView stopLoadMore];
+        [self.tableView performSelector:@selector(stopLoadMore) withObject:nil afterDelay:0.5];
     }];
     _op_loadmore.successCallbackQueue = dispatch_get_global_queue(0, 0);
     
@@ -196,63 +223,66 @@ static CFAbsoluteTime lastShowTime;
 -(void)longPressed:(UIGestureRecognizer*)sender
 {
     if(sender.state != UIGestureRecognizerStateBegan)
+    {
         return;
+    }
     DQTextJokesCell* cell = (id)sender.view;
-    SYSSPasteboardView* paste = [SYSSPasteboardView shareInstance];
-    [paste setPasteCopyBlock:^{
-        [UIPasteboard generalPasteboard].string = cell.model.content;
-        [UIWindow showToastMessage:@"已复制"];
-    }];
-    ///假的举报
-    [paste setPasteReportBlock:^{
-        [DQNetworkHelper method:@"i_just_is_a_report_method" params:@{@"id":cell.model.objectId} success:nil failure:nil];
-        [UIWindow showToastMessage:@"已举报"];
-    }];
-    [paste showMenuWithView:cell inView:self.tableView];
+    DQJokesModel* model = cell.model;
+    
+    if(model.type == DQJokesModelTypeYouMiAD)
+    {
+        [[DQAppInfo shareAppInfo] showADView];
+    }
+    else
+    {
+        SYSSPasteboardView* paste = [SYSSPasteboardView shareInstance];
+        [paste setPasteCopyBlock:^{
+            [UIPasteboard generalPasteboard].string = model.content;
+            [UIWindow showToastMessage:@"已复制~ 您可以粘贴给你的小伙伴啦！！！"];
+        }];
+        ///假的举报
+        [paste setPasteReportBlock:^{
+            [DQNetworkHelper method:@"i_just_is_a_report_method" params:@{@"id":model.objectId} success:nil failure:nil];
+            [UIWindow showToastMessage:@"感谢您的举报~"];
+        }];
+        weakify(self)
+        [paste setPasteDeleteBlock:^{
+            strongify(self);
+            NSMutableArray* models = [NSMutableArray arrayWithArray:self.models];
+            [models removeObject:model];
+            
+            [self.deleteObjectIds addObject:model.objectId];
+            self.models = models;
+            [self.tableView reloadData];
+        }];
+        [paste showMenuWithView:cell inView:self.tableView];
+    }
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-     DQJokesModel* model = _models[indexPath.row];
+    
+    DQJokesModel* model = _models[indexPath.row];
+    if(model.type == DQJokesModelTypeYouMiAD)
+    {
+        [[DQAppInfo shareAppInfo] showADView];
+    }
+    
     if(model.url.length)
     {
         TOWebViewController* vc = [[TOWebViewController alloc] initWithURLString:model.url];
         [self lk_push:vc];
     }
 }
--(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(showADView) object:nil];
-    [self performSelector:@selector(showADView) withObject:nil afterDelay:15];
-}
--(void)showADView
-{
-    CFAbsoluteTime timeDiff = (CFAbsoluteTimeGetCurrent() - lastShowTime);
-    if(timeDiff > 60 * 30)
-    {
-        BOOL isShow = [YouMiNewSpot p9Y:^(BOOL flag) {
-            if(flag)
-            {
-                [MobClick event:@"clickAD"];
-            }
-        }];
-        if(isShow)
-        {
-            [MobClick event:@"showAD"];
-            [UIWindow showToastMessage:@"您盯着屏幕已经30分钟了，请休息一下吧~！！" withColor:nil duration:5];
-        }
-        lastShowTime = CFAbsoluteTimeGetCurrent();
-    }
-    else
-    {
-        [self performSelector:@selector(showADView) withObject:nil afterDelay:15];
-    }
-}
 #pragma mark- photo browser
 -(void)showPhotoWithImageView:(UIImageView*)imageView
 {
     DQTextJokesCell* cell = [imageView findViewParentWithClass:[DQTextJokesCell class]];
-
+    if(cell.model.type == DQJokesModelTypeYouMiAD)
+    {
+        [[DQAppInfo shareAppInfo] showADView];
+        return;
+    }
     MJPhoto* photo = [MJPhoto new];
     if(imageView.status == LKImageViewStatusLoaded)
     {

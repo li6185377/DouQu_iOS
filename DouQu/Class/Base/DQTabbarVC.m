@@ -51,14 +51,16 @@
     textvc.requestType = 1;
     textvc.title = @"段子";
     [textvc.tabBarItem lk_setFinishedSelectedImage:@"tabbar_text_up" withFinishedUnselectedImage:@"tabbar_text"];
-    [array addObject:[self navigationWithVC:textvc]];
+
 
     DQTextJokesVC* picvc = [DQTextJokesVC new];
     picvc.requestType = 2;
     picvc.title = @"图片";
     [picvc.tabBarItem lk_setFinishedSelectedImage:@"tabbar_picture_up" withFinishedUnselectedImage:@"tabbar_picture"];
-    [array addObject:[self navigationWithVC:picvc]];
+
     
+    [array addObject:[self navigationWithVC:picvc]];
+    [array addObject:[self navigationWithVC:textvc]];
     [array addObject:[self navigationWithVCClass:NSClassFromString(@"DQSettingVC")]];
     
     self.viewControllers = array;
@@ -143,4 +145,23 @@
     }
     _oldSelectedIndex = currentIndex;
 }
+
+#pragma mark - InterfaceOrientation
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationPortrait;
+}
+
+- (BOOL)shouldAutorotate
+{
+    return NO;
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return interfaceOrientation == UIInterfaceOrientationPortrait;
+}
+
+
 @end

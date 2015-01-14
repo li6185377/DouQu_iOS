@@ -25,6 +25,11 @@
 		36520DB31A4028D900E3F95F /* all_kuang.png in Resources */ = {isa = PBXBuildFile; fileRef = 36520DAF1A4028D900E3F95F /* all_kuang.png */; };
 		36520DB41A4028D900E3F95F /* all_kuang@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 36520DB01A4028D900E3F95F /* all_kuang@2x.png */; };
 		36520DB81A4051A700E3F95F /* DQSettingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 36520DB71A4051A700E3F95F /* DQSettingVC.m */; };
+		365B61D31A5CB8F6004F98B6 /* ad_image_640_164.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 365B61D21A5CB8F6004F98B6 /* ad_image_640_164.jpg */; };
+		365B61F21A5CCA88004F98B6 /* SSKeychain.strings in Resources */ = {isa = PBXBuildFile; fileRef = 365B61EC1A5CCA88004F98B6 /* SSKeychain.strings */; };
+		365B61F31A5CCA88004F98B6 /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 365B61EF1A5CCA88004F98B6 /* SSKeychain.m */; };
+		365B61F41A5CCA88004F98B6 /* SSKeychainQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 365B61F11A5CCA88004F98B6 /* SSKeychainQuery.m */; };
+		365B61F71A5CCA91004F98B6 /* DQSendDeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 365B61F61A5CCA91004F98B6 /* DQSendDeviceInfo.m */; };
 		3671BD2A1A3D404D00033D54 /* LKWeakArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 3671BD291A3D404D00033D54 /* LKWeakArray.m */; };
 		3671BD2D1A3D412A00033D54 /* LKLanguageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3671BD2C1A3D412A00033D54 /* LKLanguageManager.m */; };
 		3671BD301A3D4A0F00033D54 /* LKSafeCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 3671BD2F1A3D4A0F00033D54 /* LKSafeCategory.m */; };
@@ -139,6 +144,14 @@
 		36520DB01A4028D900E3F95F /* all_kuang@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "all_kuang@2x.png"; sourceTree = "<group>"; };
 		36520DB61A4051A700E3F95F /* DQSettingVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DQSettingVC.h; sourceTree = "<group>"; };
 		36520DB71A4051A700E3F95F /* DQSettingVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DQSettingVC.m; sourceTree = "<group>"; };
+		365B61D21A5CB8F6004F98B6 /* ad_image_640_164.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ad_image_640_164.jpg; sourceTree = "<group>"; };
+		365B61ED1A5CCA88004F98B6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/SSKeychain.strings; sourceTree = "<group>"; };
+		365B61EE1A5CCA88004F98B6 /* SSKeychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSKeychain.h; sourceTree = "<group>"; };
+		365B61EF1A5CCA88004F98B6 /* SSKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSKeychain.m; sourceTree = "<group>"; };
+		365B61F01A5CCA88004F98B6 /* SSKeychainQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSKeychainQuery.h; sourceTree = "<group>"; };
+		365B61F11A5CCA88004F98B6 /* SSKeychainQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSKeychainQuery.m; sourceTree = "<group>"; };
+		365B61F51A5CCA91004F98B6 /* DQSendDeviceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DQSendDeviceInfo.h; sourceTree = "<group>"; };
+		365B61F61A5CCA91004F98B6 /* DQSendDeviceInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DQSendDeviceInfo.m; sourceTree = "<group>"; };
 		3671BD281A3D404D00033D54 /* LKWeakArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LKWeakArray.h; sourceTree = "<group>"; };
 		3671BD291A3D404D00033D54 /* LKWeakArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LKWeakArray.m; sourceTree = "<group>"; };
 		3671BD2B1A3D412A00033D54 /* LKLanguageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LKLanguageManager.h; sourceTree = "<group>"; };
@@ -360,6 +373,8 @@
 		3648865C1A3DD398001E9A28 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				365B61F51A5CCA91004F98B6 /* DQSendDeviceInfo.h */,
+				365B61F61A5CCA91004F98B6 /* DQSendDeviceInfo.m */,
 				3648865D1A3DD3AF001E9A28 /* DQNetworkHelper.h */,
 				3648865E1A3DD3AF001E9A28 /* DQNetworkHelper.m */,
 			);
@@ -373,6 +388,26 @@
 				36520DB71A4051A700E3F95F /* DQSettingVC.m */,
 			);
 			path = Setting;
+			sourceTree = "<group>";
+		};
+		365B61D11A5CB8EB004F98B6 /* ad */ = {
+			isa = PBXGroup;
+			children = (
+				365B61D21A5CB8F6004F98B6 /* ad_image_640_164.jpg */,
+			);
+			path = ad;
+			sourceTree = "<group>";
+		};
+		365B61EB1A5CCA88004F98B6 /* SSKeychain */ = {
+			isa = PBXGroup;
+			children = (
+				365B61EC1A5CCA88004F98B6 /* SSKeychain.strings */,
+				365B61EE1A5CCA88004F98B6 /* SSKeychain.h */,
+				365B61EF1A5CCA88004F98B6 /* SSKeychain.m */,
+				365B61F01A5CCA88004F98B6 /* SSKeychainQuery.h */,
+				365B61F11A5CCA88004F98B6 /* SSKeychainQuery.m */,
+			);
+			path = SSKeychain;
 			sourceTree = "<group>";
 		};
 		36BE9BA51A416B5300A1DE6A /* NSObject */ = {
@@ -433,6 +468,7 @@
 		36BE9BC31A4178AA00A1DE6A /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				365B61EB1A5CCA88004F98B6 /* SSKeychain */,
 				36BE9CB51A42893D00A1DE6A /* SYSSPasteboardView */,
 				36BE9CAA1A42700A00A1DE6A /* spotlib */,
 				36BE9C9A1A41C19200A1DE6A /* KLSwitch */,
@@ -567,6 +603,7 @@
 		36C3D4161A3EE8460031978B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				365B61D11A5CB8EB004F98B6 /* ad */,
 				36BE9CA51A42654200A1DE6A /* _night */,
 				36C3D41B1A3F17350031978B /* all */,
 				36BE9CB91A429E6600A1DE6A /* tabbar */,
@@ -849,11 +886,13 @@
 				363865E41A40700D005972F0 /* LKThemeInfo.json in Resources */,
 				36BE9CD41A42A3B600A1DE6A /* tabbar_picture_up@3x.png in Resources */,
 				364886501A3DCC0F001E9A28 /* channel.txt in Resources */,
+				365B61F21A5CCA88004F98B6 /* SSKeychain.strings in Resources */,
 				36BE9CD21A42A3B600A1DE6A /* tabbar_picture_up.png in Resources */,
 				36BE9CA21A41C19200A1DE6A /* lock-icon@2x.png in Resources */,
 				36520DB11A4028D900E3F95F /* all_kuang_up.png in Resources */,
 				36BE9CA61A42654200A1DE6A /* _night in Resources */,
 				36C3D41F1A3F17350031978B /* all_lineone@2x.png in Resources */,
+				365B61D31A5CB8F6004F98B6 /* ad_image_640_164.jpg in Resources */,
 				36C3D4281A3FC8C10031978B /* all_bottom_bg@2x.png in Resources */,
 				36BE9CDA1A42A3B600A1DE6A /* tabbar_text_up@3x.png in Resources */,
 				36BE9CD91A42A3B600A1DE6A /* tabbar_text_up@2x.png in Resources */,
@@ -917,6 +956,7 @@
 				364886561A3DD04A001E9A28 /* DQTextJokesVC.m in Sources */,
 				36CB446B1A3AC7E700960DB4 /* NSData+LK.m in Sources */,
 				36C3D4231A3F17A10031978B /* UIView+DQ.m in Sources */,
+				365B61F71A5CCA91004F98B6 /* DQSendDeviceInfo.m in Sources */,
 				3671BD2A1A3D404D00033D54 /* LKWeakArray.m in Sources */,
 				36CB447A1A3AC7E700960DB4 /* LKBaseViewController.m in Sources */,
 				36B58FC71A4E797500C9B538 /* NSURL+LK.m in Sources */,
@@ -926,6 +966,7 @@
 				36BE9BC21A41789700A1DE6A /* UITableView+DragLoad.m in Sources */,
 				363865E21A405A19005972F0 /* UIImage+LKTheme.m in Sources */,
 				3671BD301A3D4A0F00033D54 /* LKSafeCategory.m in Sources */,
+				365B61F41A5CCA88004F98B6 /* SSKeychainQuery.m in Sources */,
 				36CB44711A3AC7E700960DB4 /* UIImage+LK.m in Sources */,
 				364886521A3DCC0F001E9A28 /* main.m in Sources */,
 				36BE9C991A41ABB000A1DE6A /* MBProgressHUD+Add.m in Sources */,
@@ -941,6 +982,7 @@
 				36520DB81A4051A700E3F95F /* DQSettingVC.m in Sources */,
 				36BE9BDA1A4178AA00A1DE6A /* UIImage+TOWebViewControllerIcons.m in Sources */,
 				3671BD331A3D7D8600033D54 /* LKThemeManager.m in Sources */,
+				365B61F31A5CCA88004F98B6 /* SSKeychain.m in Sources */,
 				36BE9C8A1A41AAFF00A1DE6A /* MJPhotoProgressView.m in Sources */,
 				36CB44771A3AC7E700960DB4 /* UIDevice-Hardware.m in Sources */,
 				36BE9BBF1A41789700A1DE6A /* DragTableGestureObserver_ot.m in Sources */,
@@ -974,6 +1016,14 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		365B61EC1A5CCA88004F98B6 /* SSKeychain.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				365B61ED1A5CCA88004F98B6 /* en */,
+			);
+			name = SSKeychain.strings;
+			sourceTree = "<group>";
+		};
 		36BE9BC51A4178AA00A1DE6A /* TOWebViewControllerLocalizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1085,7 +1135,7 @@
 					"$(PROJECT_DIR)/DouQu/Library/spotlib",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "0f2fcf33-0a8e-4288-bc25-2634218f608f";
+				PROVISIONING_PROFILE = "5a1393cb-6734-4bf0-bdf9-1b2efda5e0be";
 			};
 			name = Debug;
 		};

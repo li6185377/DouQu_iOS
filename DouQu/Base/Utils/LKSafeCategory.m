@@ -320,6 +320,25 @@ static void printErrorMethodStack(SEL seletor) {
 
 @end
 
+@implementation UIScrollView(DisableAnimation)
+///ios8
+- (id)sy_createPreparedCellForItemAtIndexPath:(id)arg1 withLayoutAttributes:(id)arg2 applyAttributes:(_Bool)arg3
+{
+    [UIView setAnimationsEnabled:NO];
+    id returnMe = [self sy_createPreparedCellForItemAtIndexPath:arg1 withLayoutAttributes:arg2 applyAttributes:arg3];
+    [UIView setAnimationsEnabled:YES];
+    return returnMe;
+}
+///ios6
+- (id)sy_createPreparedCellForItemAtIndexPath:(id)arg1 withLayoutAttributes:(id)arg2
+{
+    [UIView setAnimationsEnabled:NO];
+    id returnMe = [self sy_createPreparedCellForItemAtIndexPath:arg1 withLayoutAttributes:arg2];
+    [UIView setAnimationsEnabled:YES];
+    return returnMe;
+}
+@end
+
 
 #pragma mark- 添加观察者时 判断是否添加过
 static __strong NSMutableArray *observerStore;
@@ -433,5 +452,14 @@ static __strong NSRecursiveLock* observerStoreLock;
     
     SEL sel = NSSelectorFromString(@"_createPreparedCellForGlobalRow:withIndexPath:");
     [UITableView jr_swizzleMethod:sel withMethod:@selector(LK_createPreparedCellForGlobalRow:withIndexPath:) error:nil];
+    
+    if(IOS6)
+    {
+        SEL sel_2 = NSSelectorFromString(@"_createPreparedCellForItemAtIndexPath:withLayoutAttributes:");
+        [UICollectionView jr_swizzleMethod:sel_2 withMethod:@selector(sy_createPreparedCellForItemAtIndexPath:withLayoutAttributes:) error:nil];
+        
+        SEL sel_3 = NSSelectorFromString(@"_createPreparedCellForItemAtIndexPath:withLayoutAttributes:applyAttributes:");
+        [UICollectionView jr_swizzleMethod:sel_3 withMethod:@selector(sy_createPreparedCellForItemAtIndexPath:withLayoutAttributes:applyAttributes:) error:nil];
+    }
 }
 @end

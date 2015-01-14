@@ -48,13 +48,20 @@
 {
     NSMutableDictionary* pars = [NSMutableDictionary dictionaryWithDictionary:params];
     
-    [pars setObject:appVersion forKey:@"app_v"];
-    [pars setObject:appChannelID forKey:@"app_channel"];
-    [pars setObject:@"ios" forKey:@"app_platform"];
-    [pars setObject:[UIDevice currentDevice].platform forKey:@"app_device"];
-    [pars setObject:@([LKLanguageManager shareLanguageManager].currentLanguageType) forKey:@"app_language"];
+    pars[@"app_v"] = appVersion;
+    pars[@"app_channel"] = appChannelID;
+    pars[@"app_platform"] = @"ios";
     
-    NSMutableURLRequest* request = [_client requestWithMethod:@"POST" path:method parameters:params];
+    UIDevice* device = [UIDevice currentDevice];
+    pars[@"app_device"] = [device platform];
+    pars[@"app_macid"] = [device macaddress];
+    pars[@"app_openudid"] = [device openUDID];
+    pars[@"app_idfa"] = [device idfaString];
+    pars[@"app_idfv"] = [device idfvString];
+    
+    pars[@"app_language"] = @([LKLanguageManager shareLanguageManager].currentLanguageType);
+    
+    NSMutableURLRequest* request = [_client requestWithMethod:@"POST" path:method parameters:pars];
     [request setValue:AVOSID forHTTPHeaderField:@"X-AVOSCloud-Application-Id"];
     [request setValue:AVOSKey forHTTPHeaderField:@"X-AVOSCloud-Application-Key"];
     [request setValue:AVOSProduction forHTTPHeaderField:@"X-AVOSCloud-Application-Production"];

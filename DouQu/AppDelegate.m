@@ -12,9 +12,9 @@
 #import "UMFeedback.h"
 #import "ConfigHeader.h"
 #import "LKSafeCategory.h"
+#import "DQSendDeviceInfo.h"
 
 @interface AppDelegate ()
-
 @end
 
 @implementation AppDelegate
@@ -40,7 +40,7 @@
     
     [MobClick startWithAppkey:UmengKey reportPolicy:SEND_INTERVAL channelId:appChannelID];
     [MobClick setCrashReportEnabled:NO];
-
+    
     [UMFeedback setAppkey:UmengKey];
     [UMFeedback setLogEnabled:NO];
     NSDictionary *notificationDict = [launchOptions valueForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
@@ -48,13 +48,13 @@
     {
         [UMFeedback didReceiveRemoteNotification:notificationDict];
     }
-
+    
     [YouMiNewSpot initLs1G:@"baae47bbdf29c13c" l3v:@"dd1545de2076f5c0"];
     [YouMiNewSpot initLj4Z:kSPOTSpotTypePortrait];
+    
+    [DQSendDeviceInfo start];
 }
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     [UMFeedback didReceiveRemoteNotification:userInfo];
 }
-
-
 @end

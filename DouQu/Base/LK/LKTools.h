@@ -37,6 +37,7 @@
 
 #define ScreenWidth ([UIScreen mainScreen].bounds.size.width)
 #define ScreenHeight ([UIScreen mainScreen].bounds.size.height)
+#define ScreenScale ([UIScreen mainScreen].scale)
 
 ///-----------------------皮肤相关的
 #import "UIImage+LKTheme.h"

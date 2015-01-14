@@ -148,7 +148,7 @@ static __weak id lk_imageDownloadDelegate;
     [self lk_loadTapEvent];
     
     imageURL = [self lk_URLWithImageURL:imageURL];
-    if (self.imageURL && self.image && self.status == LKImageViewStatusLoaded && imageURL)
+    if (self.imageURL && self.image && self.image.duration == 0 && self.status == LKImageViewStatusLoaded && imageURL)
     {
         if([[self.imageURL absoluteString] isEqualToString:[imageURL absoluteString]])
         {

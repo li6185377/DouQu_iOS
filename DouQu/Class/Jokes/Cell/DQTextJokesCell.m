@@ -69,6 +69,15 @@
 {
     _model = model;
     
+    if(model.type == DQJokesModelTypeYouMiAD)
+    {
+        _lb_content.textColor = colorWithRed__;
+    }
+    else
+    {
+        _lb_content.textColor = colorWithBlack;
+    }
+    
     int lastBottom = 5;
     
     if(model.publisher.length > 0)
@@ -146,10 +155,5 @@
     }
     model.textCellHeight = lastBottom + 15;
     return model.textCellHeight;
-}
-
--(void)copy:(id)sender
-{
-    
 }
 @end

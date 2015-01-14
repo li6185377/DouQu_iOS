@@ -8,11 +8,13 @@
 
 #import "DQAppInfo.h"
 #import "DQNetworkHelper.h"
+#import "ConfigHeader.h"
 
 #define isNightKey  @"dq_is_night"
 #define autoLoadingImageKey  @"dq_is_auto_loading_image"
 @interface DQAppInfo()<SDWebImageManagerDelegate>
-
+@property(weak,nonatomic)UIView* adView;
+@property(weak,nonatomic)UIButton* adCloseButton;
 @end
 
 @implementation DQAppInfo
@@ -100,5 +102,81 @@
         [[NSUserDefaults standardUserDefaults] setBool:_autoLoadingImage2g forKey:autoLoadingImageKey];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
+}
+#pragma mark- show ad
+
+-(void)showADView
+{
+    if(_adView)
+    {
+        return;
+    }
+    
+    weakify(self);
+    BOOL isShow = [YouMiNewSpot p9Y:^(BOOL flag) {
+        strongify(self);
+        
+        self.adView = nil;
+        if(flag)
+        {
+            [MobClick event:@"clickAD"];
+        }
+    }];
+    _adView = nil;
+    if(isShow)
+    {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)),
+                       dispatch_get_main_queue(), ^{
+                           strongify(self);
+                           
+                           UIView* view = [[UIApplication sharedApplication].keyWindow.subviews lastObject];
+                           if([view isMemberOfClass:[UIView class]])
+                           {
+                               self.adView = view;
+                               if(view.gestureRecognizers.count == 0)
+                               {
+                                   UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeAdView)];
+                                   [view addGestureRecognizer:tap];
+                               }
+                               
+                               dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                   strongify(self);
+                                   [self findSubViewForCloseButton:self.adView];
+                               });
+                           }
+                       });
+        
+        [MobClick event:@"showAD"];
+    }
+}
+-(void)findSubViewForCloseButton:(UIView*)view
+{
+    NSArray* array = view.subviews;
+    for (UIView* subview in array)
+    {
+        if([subview isKindOfClass:[UIButton class]] && subview.width < 60 && subview.height < 60)
+        {
+            self.adCloseButton = (id)subview;
+            break;
+        }
+        
+        if(subview.subviews.count)
+        {
+            [self findSubViewForCloseButton:subview];
+        }
+    }
+}
+-(void)closeAdView
+{
+    if(_adCloseButton)
+    {
+        [_adCloseButton sendActionsForControlEvents:UIControlEventTouchUpInside];
+    }
+    else
+    {
+        [_adView removeFromSuperview];
+    }
+    _adCloseButton = nil;
+    _adView = nil;
 }
 @end

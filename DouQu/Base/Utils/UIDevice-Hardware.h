@@ -106,6 +106,14 @@ typedef enum {
 
 - (NSString *)getIPAddress;
 
+- (NSString *)realMacAddress;
+- (NSString *)openUDID;
+- (NSString *)idfaString;
+- (NSString *)idfvString;
+
+/// 获取运营商信息
+- (NSString *)carrierName;
+
 - (BOOL) hasRetinaDisplay;
 - (UIDeviceFamily) deviceFamily;
 @end
