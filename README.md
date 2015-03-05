@@ -19,11 +19,9 @@ DouQu_IOS
 '只提供学习用，不能使用该项目进行任何的应用上传,或者其他活动'
 ```
 
-如果喜欢我写的应用 你可以对我进行一些捐赠  http://item.taobao.com/item.htm?id=42574167157
 
 如果你是开发者  有兴趣的话  可以加入到 QQ群:113767274 一起讨论学习什么的
 
 结尾:
-部分代码copy了ivan大神的压路机(https://github.com/dcty/YYJSON)
-施工大神的挖掘机，云才大神的推土机，建文帝大神的盖楼机
-heihei 已经用肉收买过他们了  ╰(￣▽￣)╮
+部分代码使用了一些大神的杰作 比如YYJSON(https://github.com/dcty/YYJSON) ...
+
