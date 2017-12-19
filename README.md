@@ -7,20 +7,27 @@ AppStore: https://itunes.apple.com/us/app/dou-qu-xiao-feng-le/id952752365?l=zh&l
 
 拥有完整的功能的手机应用app 
 
-```ruby
-'只提供学习用，不能使用该项目进行任何的应用上传,或者其他活动'
-```
 <br>
-![](https://raw.githubusercontent.com/li6185377/DouQu_IOS/master/ScreenShot/douqu.gif)<br>
-![](https://raw.githubusercontent.com/li6185377/DouQu_IOS/master/ScreenShot/screen_1.png)<br>
-![](https://raw.githubusercontent.com/li6185377/DouQu_IOS/master/ScreenShot/screen_2.png)<br>
-![](https://raw.githubusercontent.com/li6185377/DouQu_IOS/master/ScreenShot/screen_3.png)<br>
-![](https://raw.githubusercontent.com/li6185377/DouQu_IOS/master/ScreenShot/screen_4.png)<br>
 
-```ruby
-'只提供学习用，不能使用该项目进行任何的应用上传,或者其他活动'
-```
+![](https://github.com/li6185377/DouQu_IOS/raw/master/ScreenShot/douqu.gif)
 
+<br>
+
+![](https://github.com/li6185377/DouQu_IOS/raw/master/ScreenShot/screen_1.png)
+
+<br>
+
+![](https://github.com/li6185377/DouQu_IOS/raw/master/ScreenShot/screen_2.png)
+
+<br>
+
+![](https://github.com/li6185377/DouQu_IOS/raw/master/ScreenShot/screen_3.png)
+
+<br>
+
+![](https://github.com/li6185377/DouQu_IOS/raw/master/ScreenShot/screen_4.png)
+
+<br>
 
 如果你是开发者  有兴趣的话  可以加入到 QQ群:113767274 一起讨论学习什么的
 
