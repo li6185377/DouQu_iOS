@@ -28,7 +28,3 @@ AppStore: https://itunes.apple.com/us/app/dou-qu-xiao-feng-le/id952752365?l=zh&l
 ![](https://github.com/li6185377/DouQu_IOS/raw/master/ScreenShot/screen_4.png)
 
 <br>
-
-结尾:
-部分代码使用了一些大神的杰作 比如YYJSON(https://github.com/dcty/YYJSON) ...
-
