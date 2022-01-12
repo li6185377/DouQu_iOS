@@ -29,8 +29,6 @@ AppStore: https://itunes.apple.com/us/app/dou-qu-xiao-feng-le/id952752365?l=zh&l
 
 <br>
 
-如果你是开发者  有兴趣的话  可以加入到 QQ群:113767274 一起讨论学习什么的
-
 结尾:
 部分代码使用了一些大神的杰作 比如YYJSON(https://github.com/dcty/YYJSON) ...
 
